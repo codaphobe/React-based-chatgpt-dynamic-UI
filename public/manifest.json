@@ -3,7 +3,11 @@
   "name": "React Content Script Example",
   "version": "1.0",
   "permissions": ["activeTab", "scripting"],
-  "action":{
-    "default_popup": "./index.html"
-  }
+  "description":"Extension to improve Chatgpt UI like Threads",
+  "content_scripts":[
+    {
+      "matches":["https://chatgpt.com/c/*"],
+      "js" : ["./main.js"]
+    }
+  ]
 }

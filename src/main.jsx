@@ -1,7 +1,5 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import { createRoot } from 'react-dom/client';
+import './index.css';
 import ThreadViewBtn from './ThreadViewBtn.jsx';
 
 const container = document.querySelector("#thread");
@@ -9,7 +7,7 @@ let timer;
 
 function addRoot(header){
   const headerActions = header.children[2].children.namedItem("conversation-header-actions");
-  if(headerActions && !header.getElementById("threadView-root")){
+  if(headerActions && !header.querySelector("#threadView-root")){
     const rootContainer = document.createElement("div");
     rootContainer.setAttribute("id","threadView-root");
     headerActions.prepend(rootContainer);

@@ -26,17 +26,17 @@ export default class ThreadUtils {
             return;
         }
         
+        this.addNewChat(articles);
+        
         //Collect all chats
-        articles.forEach((article) => {
-            this.allChats.set(article.attributes.getNamedItem("data-testid").value,{
-            "element":article,
-            "turn":article.attributes.getNamedItem('data-turn').value
-            });
-        });
-        console.log(this.allChats);
+        // articles.forEach((article) => {
+        //     this.allChats.set(article.attributes.getNamedItem("data-testid").value,{
+        //     "element":article,
+        //     "turn":article.attributes.getNamedItem('data-turn').value
+        //     });
+        // });
     }
         
-    
     buildThreads(){
         
         if(this.allChats.size===0){
@@ -62,7 +62,22 @@ export default class ThreadUtils {
         console.log(this.allThreads);
     }
     
-    addNewChats(articels){
+    addNewChat(articles){
+        if (articles.length === 0) {
+            console.log("No articles found in chat container.");
+            return;
+        }
+        
+        articles.forEach((article) => {
+            this.allChats.set(article.attributes.getNamedItem("data-testid").value,{
+            "element":article,
+            "turn":article.attributes.getNamedItem('data-turn').value
+            });
+        });
+        console.log(this.allChats);
+    }
+    
+    addNewThread(){
         
     }
 }

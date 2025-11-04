@@ -52,10 +52,11 @@ function newChatsObserverStart(chatContainer){
               if (node.tagName === "ARTICLE"){
                 console.log("New article added, rebuilding threads...");
                 console.log(node);
+                threadUtils.addNewChat([node]);
               }
             });
           }
         });
     });
-    newChatObserver.observe(chatContainer,{childList:true,subtree:true});
+    newChatObserver.observe(chatContainer,{childList:true,subtree:false});
 }

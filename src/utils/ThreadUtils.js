@@ -70,8 +70,8 @@ export default class ThreadUtils {
         
         articles.forEach((article) => {
             this.allChats.set(article.attributes.getNamedItem("data-testid").value,{
-            "element":article,
-            "turn":article.attributes.getNamedItem('data-turn').value
+            element:article,
+            turn:article.attributes.getNamedItem('data-turn').value
             });
         });
         console.log(this.allChats);

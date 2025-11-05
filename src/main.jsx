@@ -44,19 +44,28 @@ const observer = new MutationObserver(() => {
 observer.observe(container,{childList:true,subtree:true});
 
 function newChatsObserverStart(chatContainer){
-    let timer;
-    const newChatObserver = new MutationObserver((mutations) => {
+  let accumulatedNodes = [];
+  let processTimeout;
+  const newChatObserver = new MutationObserver((mutations) => {
+        
         mutations.forEach((mutation) =>{
           if(mutation.type === "childList"){
             mutation.addedNodes.forEach((node) =>{
               if (node.tagName === "ARTICLE"){
-                console.log("New article added, rebuilding threads...");
-                console.log(node);
-                threadUtils.addNewChat([node]);
+                    accumulatedNodes.push(node);
+                    console.log("New article added and accumulated for processing.", node);
               }
             });
           }
         });
+        
+        clearTimeout(processTimeout);
+        processTimeout = setTimeout(() => {
+          if (accumulatedNodes.length > 0 && accumulatedNodes.length <= 2) {
+            threadUtils.addNewChat(accumulatedNodes);
+            accumulatedNodes = [];
+          }
+        }, 500);
     });
     newChatObserver.observe(chatContainer,{childList:true,subtree:false});
 }

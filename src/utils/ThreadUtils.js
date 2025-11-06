@@ -28,15 +28,8 @@ export default class ThreadUtils {
             return;
         }
         
+        //Adds all articles to allChats map
         this.addNewChat(articles);
-        
-        //Collect all chats
-        // articles.forEach((article) => {
-        //     this.allChats.set(article.attributes.getNamedItem("data-testid").value,{
-        //     "element":article,
-        //     "turn":article.attributes.getNamedItem('data-turn').value
-        //     });
-        // });
     }
         
     static buildThreads(){
@@ -61,6 +54,14 @@ export default class ThreadUtils {
                 i++;
             }   
         }
+        
+        //Last thread will not be collapsed by default
+        if(allThreads.size>0){
+            const lastThreadKey = `thread-id-${allThreads.size - 1}`;
+            console.log("Last thread key:", lastThreadKey);
+            allThreads.get(lastThreadKey).collapsed = false;
+        }
+
         console.log(allThreads);
     }
     
@@ -86,6 +87,10 @@ export default class ThreadUtils {
 
     static getAllThreads(){
         return Array.from(allThreads.entries());
+    }
+    
+    static getAllChats(){
+        return Array.from(allChats.entries());
     }
 
 }

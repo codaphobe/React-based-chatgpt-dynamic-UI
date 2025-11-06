@@ -6,7 +6,7 @@ export default function ThreadView() {
   const [threads, setThreads] = React.useState([]);
 
   useEffect(() => {
-    const threads = threadUtils.getAllThreads();
+    const threads = ThreadUtils.getAllThreads();
     setThreads(threads);
     console.log("Threads loaded:", threads);
   }, []);

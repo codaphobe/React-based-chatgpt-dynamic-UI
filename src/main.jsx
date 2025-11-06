@@ -6,7 +6,6 @@ import ThreadUtils from './utils/ThreadUtils.js';
 
 const container = document.querySelector("#thread");
 let chatContainer;
-const threadUtils = new ThreadUtils();
 
 function addViewBtnRoot(header){
   const headerActions = header.querySelector("#conversation-header-actions");
@@ -30,9 +29,9 @@ const observer = new MutationObserver(() => {
       chatContainer = container.querySelector("div:has(> article)");
       if (header && chatContainer){
         addViewBtnRoot(header);
-        threadUtils.initializeThreads(chatContainer);
+        ThreadUtils.initializeThreads(chatContainer);
         const articlesCount = container.querySelectorAll("article").length;
-        if (articlesCount === threadUtils.allChats.size) {
+        if (articlesCount === ThreadUtils.getAllChats().length) {
           // All articles have been processed, disconnect observer
           observer.disconnect();
           
@@ -64,9 +63,9 @@ function newChatsObserverStart(chatContainer){
         clearTimeout(processTimeout);
         processTimeout = setTimeout(() => {
           if (accumulatedNodes.length > 0 && accumulatedNodes.length <= 2) {
-            threadUtils.addNewChat(accumulatedNodes);
+            ThreadUtils.addNewChat(accumulatedNodes);
             accumulatedNodes = [];
-            threadUtils.buildThreads();
+            ThreadUtils.buildThreads();
           }
         }, 500);
     });

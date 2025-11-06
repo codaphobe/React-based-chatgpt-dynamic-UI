@@ -1,7 +1,5 @@
 import { createRoot } from "react-dom/client";
 import ThreadView from "../components/ThreadView.jsx";
-import Button from "../Button.jsx";
-import ThreadViewBtn from "../ThreadViewBtn.jsx";
 import React from "react";
 
 let threadViewRoot = null;

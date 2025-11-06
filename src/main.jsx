@@ -4,30 +4,32 @@ import ThreadViewBtn from './ThreadViewBtn.jsx';
 import ThreadUtils from './utils/ThreadUtils.js';
 
 
-function addRoot(header){
+const container = document.querySelector("#thread");
+let chatContainer;
+const threadUtils = new ThreadUtils();
+
+function addViewBtnRoot(header){
   const headerActions = header.querySelector("#conversation-header-actions");
-  if(headerActions && !header.querySelector("#threadView-root")){
+  if(headerActions && !header.querySelector("#threadViewBtn-root")){
     const rootContainer = document.createElement("div");
-    rootContainer.setAttribute("id","threadView-root");
+    rootContainer.setAttribute("id","threadViewBtn-root");
     headerActions.prepend(rootContainer);
     
     const root = createRoot(rootContainer);
     root.render(
-      <ThreadViewBtn/>
+      <ThreadViewBtn chatContainer={chatContainer} enabled={true}/>
     )
   };
 }
 
-const container = document.querySelector("#thread");
 let timer;
-const threadUtils = new ThreadUtils();
 const observer = new MutationObserver(() => {
   clearTimeout(timer);
   timer = setTimeout(() =>{
       const header = container.querySelector("#page-header");
-      const chatContainer = container.querySelector("div:has(> article)");
+      chatContainer = container.querySelector("div:has(> article)");
       if (header && chatContainer){
-        addRoot(header);
+        addViewBtnRoot(header);
         threadUtils.initializeThreads(chatContainer);
         const articlesCount = container.querySelectorAll("article").length;
         if (articlesCount === threadUtils.allChats.size) {
@@ -64,6 +66,7 @@ function newChatsObserverStart(chatContainer){
           if (accumulatedNodes.length > 0 && accumulatedNodes.length <= 2) {
             threadUtils.addNewChat(accumulatedNodes);
             accumulatedNodes = [];
+            threadUtils.buildThreads();
           }
         }, 500);
     });

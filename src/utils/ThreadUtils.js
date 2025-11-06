@@ -1,10 +1,12 @@
-export default class ThreadUtils {
-    constructor() {
-        this.allChats = new Map();
-        this.allThreads = new Map();
-    }
 
-    initializeThreads(chatContainer) {
+const allChats = new Map();
+const allThreads = new Map();
+
+
+export default class ThreadUtils {
+    
+
+    static initializeThreads(chatContainer) {
         
         // Collect all chats
         this.collectAllChats(chatContainer);
@@ -13,7 +15,7 @@ export default class ThreadUtils {
         this.buildThreads();
     }
     
-    collectAllChats(chatContainer) {
+    static collectAllChats(chatContainer) {
         const articles = chatContainer.querySelectorAll("article");
         
         if (articles.length === 0) {
@@ -21,7 +23,7 @@ export default class ThreadUtils {
             return;
         }
         
-        if (articles.length === this.allChats.size) {
+        if (articles.length === allChats.size) {
             console.log("All articles have already been collected.");
             return;
         }
@@ -37,20 +39,20 @@ export default class ThreadUtils {
         // });
     }
         
-    buildThreads(){
+    static buildThreads(){
         
-        if(this.allChats.size===0){
+        if(allChats.size===0){
             console.log("No chats available to build threads.");
             return;
         }
 
         let threadCount = 0;
-        for(let i=0;i<this.allChats.size;i++){
-            const user = this.allChats.get(`conversation-turn-${i+1}`);
-            const assistant = this.allChats.get(`conversation-turn-${i+2}`);
+        for(let i=0;i<allChats.size;i++){
+            const user = allChats.get(`conversation-turn-${i+1}`);
+            const assistant = allChats.get(`conversation-turn-${i+2}`);
 
             if (user["turn"] === "user" && assistant["turn"]==="assistant"){
-                this.allThreads.set(`thread-id-${threadCount}`,{
+                allThreads.set(`thread-id-${threadCount}`,{
                     user : user["element"],
                     assistant : assistant["element"],
                     collapsed :true
@@ -59,25 +61,31 @@ export default class ThreadUtils {
                 i++;
             }   
         }
-        console.log(this.allThreads);
+        console.log(allThreads);
     }
     
-    addNewChat(articles){
+    static addNewChat(articles){
         if (articles.length === 0) {
             console.log("No articles found in chat container.");
             return;
         }
         
         articles.forEach((article) => {
-            this.allChats.set(article.attributes.getNamedItem("data-testid").value,{
+            allChats.set(article.attributes.getNamedItem("data-testid").value,{
             element:article,
             turn:article.attributes.getNamedItem('data-turn').value
             });
         });
-        console.log(this.allChats);
+        console.log(allChats);
     }
-    
-    addNewThread(){
-        
+
+    //TODO: method to add new individual thread
+    static addNewThread(){
+
     }
+
+    static getAllThreads(){
+        return Array.from(allThreads.entries());
+    }
+
 }

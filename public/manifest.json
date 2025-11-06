@@ -6,7 +6,7 @@
   "description":"Extension to improve Chatgpt UI like Threads",
   "content_scripts":[
     {
-      "matches":["https://chatgpt.com/c/*"],
+      "matches":["https://chatgpt.com/c/*","https://chatgpt.com/g/*/c/*"],
       "js" : ["./main.js"]
     }
   ]
